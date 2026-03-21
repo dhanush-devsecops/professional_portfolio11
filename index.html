@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dhanush — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg1: linear-gradient(135deg,#0f172a 0%, #071421 60%);
+      --glass: rgba(255,255,255,0.06);
+      --accent: #7c3aed;
+      --accent2: #06b6d4;
+      --muted: rgba(255,255,255,0.7);
+      --card-radius: 16px;
+      --max-width: 1200px;
+      font-family: 'Inter', system-ui;
+      scroll-behavior: smooth;
+    }
+    * {box-sizing:border-box;margin:0;padding:0;}
+    html,body {height:100%;background:var(--bg1);color:#e6eef8;}
+    a {text-decoration:none;color:inherit;}
+    .wrap {max-width:var(--max-width);margin:0 auto;padding:24px;}
+
+    header {
+      position:sticky;top:0;
+      display:flex;justify-content:space-between;align-items:center;
+      padding:12px 18px;background:rgba(15,23,42,0.85);
+      backdrop-filter:blur(8px);z-index:1000;
+      box-shadow:0 2px 10px rgba(0,0,0,0.3);
+    }
+    .brand {display:flex;gap:12px;align-items:center;}
+    .logo {width:50px;height:50px;border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;font-size:18px;}
+    nav {display:flex;gap:14px;align-items:center;}
+    nav a {color:var(--muted);font-weight:600;transition:0.3s;padding:8px;border-radius:8px;}
+    nav a:hover {color:var(--accent);background:rgba(255,255,255,0.02);}
+    .cta {padding:8px 14px;border-radius:10px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      box-shadow:0 8px 30px rgba(124,58,237,0.18);font-weight:700;transition:0.3s;}
+    .cta:hover {opacity:0.9;}
+
+    #themeToggle {margin-left:10px;background:none;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:10px;color:var(--muted);cursor:pointer;font-weight:700;}
+    #themeToggle:hover {border-color:var(--accent);color:var(--accent);}
+
+    .hero {display:grid;grid-template-columns:360px 1fr;gap:32px;align-items:center;margin-top:30px;}
+    .card {background:rgba(255,255,255,0.04);border-radius:var(--card-radius);
+      padding:28px;backdrop-filter:blur(8px);
+      box-shadow:0 6px 30px rgba(2,6,23,0.6);transition:0.3s;}
+    .card:hover {transform:translateY(-5px);}
+    .intro h1 {margin:0;font-size:32px;line-height:1.2;}
+    .intro p {color:var(--muted);margin-top:12px;font-size:16px;}
+    .actions {margin-top:18px;display:flex;gap:12px;}
+    .btn-outline {padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);
+      background:transparent;color:var(--muted);font-weight:700;transition:0.3s;}
+    .btn-outline:hover {background:rgba(255,255,255,0.05);border-color:var(--accent);color:var(--accent);}
+
+    /* Profile Card styles (UNCHANGED from original) */
+    .profile-card {
+      background: #111;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    .profile-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+    }
+    .profile-image-container {
+      width: 100%;
+      height: 380px;
+      overflow: hidden;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .profile-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .profile-image:hover { transform: scale(1.05); }
+    .featured-badge { display: inline-block; background: #ffb400; color: #000; font-size: 0.9rem; font-weight: bold; padding: 4px 10px; border-radius: 8px; margin-bottom: 10px; }
+    .profile-name { font-size: 1.8rem; color: #fff; font-weight: 700; margin: 8px 0 5px; }
+    .profile-role { color: #00ffff; font-weight: 500; font-size: 1rem; margin-bottom: 20px; }
+    .profile-desc { color: #ccc; font-size: 0.95rem; line-height: 1.5; margin-bottom: 25px; }
+    .collab-btn { background: #ff004f; color: #fff; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: background 0.3s ease, transform 0.2s ease; }
+    .collab-btn:hover { background: #e60045; transform: scale(1.05); }
+
+    /* Animated role text (UNCHANGED) */
+    .role-text { font-size:18px;color:var(--accent);height:24px;overflow:hidden;position:relative;margin-top:10px; }
+    .role-text span { position:absolute; width:100%; opacity:0; animation: slideText 12s linear infinite 0s; }
+    .role-text span:nth-child(2){ animation-delay:3s; }
+    .role-text span:nth-child(3){ animation-delay:6s; }
+    .role-text span:nth-child(4){ animation-delay:9s; }
+    @keyframes slideText {
+      0%{opacity:0;transform:translateY(100%);}
+      5%{opacity:1;transform:translateY(0);}
+      25%{opacity:1;transform:translateY(0);}
+      30%{opacity:0;transform:translateY(-100%);}
+      100%{opacity:0;}
+    }
+
+    /* typed role (new, small element) */
+    .typed-role { font-size:16px;color:var(--accent);margin-top:8px;height:24px; }
+
+    .section {margin-top:40px;}
+    .section h2 {margin-bottom:20px;font-size:26px;}
+    .projects {display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .project {padding:20px;border-radius:12px;background:rgba(255,255,255,0.02);min-height:150px;transition:0.3s;}
+    .project:hover {background:rgba(124,58,237,0.1);}
+    .tags {display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;}
+    .tag {padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.03);font-size:13px;}
+    .tag:hover {background:var(--accent);color:#fff;}
+
+    .two-col {display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .skill {margin-bottom:12px;}
+    .progress {height:10px;background:rgba(255,255,255,0.06);border-radius:8px;overflow:hidden;}
+    .progress > i {display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:1s ease;}
+
+    /* Top Links Styling with Effects (UNCHANGED) */
+    #top-links {
+      padding: 20px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    #top-links:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(124,58,237,0.5);
+    }
+    #top-links h3 { margin-bottom: 20px; color: var(--accent); }
+
+    #top-links .links-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    #top-links .links-container a {
+      display: block;
+      padding: 12px 0;
+      border-radius: 12px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(90deg,#7c3aed,#06b6d4);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    #top-links .links-container a::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%);
+      transform: rotate(45deg) translate(-100%, -100%);
+      transition: transform 0.6s ease;
+    }
+
+    #top-links .links-container a:hover::before {
+      transform: rotate(45deg) translate(100%, 100%);
+    }
+
+    #top-links .links-container a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(124,58,237,0.6);
+    }
+
+    footer {margin-top:50px;text-align:center;color:var(--muted);font-size:14px;}
+
+    /* CONTACT SECTION STYLES (UNCHANGED) */
+    #contact .two-col {
+      gap:40px;
+    }
+    #contact .info-box {
+      background:rgba(255,255,255,0.02);
+      padding:15px;
+      border-radius:12px;
+      transition:0.3s ease;
+    }
+    #contact .info-box:hover {
+      background:rgba(124,58,237,0.2);
+      transform:translateY(-5px);
+    }
+    #contact form {
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+    #contact .form-group {
+      position:relative;
+      display:flex;
+      flex-direction:column-reverse;
+    }
+    #contact .form-group input,
+    #contact .form-group textarea {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 14px 12px;
+      color: #fff;
+      font-size: 16px;
+      outline:none;
+      transition: all 0.3s ease;
+    }
+    #contact .form-group input:focus,
+    #contact .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(124,58,237,0.3);
+      background: rgba(255,255,255,0.05);
+    }
+    #contact .form-group label {
+      position:absolute;
+      left:12px;
+      top:14px;
+      font-size:16px;
+      color:var(--muted);
+      pointer-events:none;
+      transition:0.3s ease all;
+    }
+    #contact .form-group input:focus + label,
+    #contact .form-group input:not(:placeholder-shown) + label,
+    #contact .form-group textarea:focus + label,
+    #contact .form-group textarea:not(:placeholder-shown) + label {
+      top:-10px;
+      left:8px;
+      font-size:12px;
+      color:var(--accent);
+      background: var(--bg1);
+      padding:0 4px;
+    }
+    #contact button.cta {
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      border: none;
+      background: linear-gradient(90deg,var(--accent),var(--accent2));
+      box-shadow: 0 8px 20px rgba(124,58,237,0.5);
+      transition: 0.3s ease;
+    }
+    #contact button.cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(124,58,237,0.7);
+    }
+
+    /* New Sections Styling */
+    /* Steps / How it works */
+    #steps .step-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+    .step {background:rgba(255,255,255,0.03);padding:18px;border-radius:12px;text-align:center;}
+    .step h4 {margin-bottom:8px;color:var(--accent);}
+
+    /* Stats */
+    #stats .stat-grid {display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+    .stat {background:rgba(255,255,255,0.03);padding:20px;border-radius:12px;text-align:center;}
+    .stat h3 {font-size:36px;margin-bottom:8px;color:var(--accent);}
+
+    /* Testimonials */
+    #testimonials .test-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+    .testimonial {background:rgba(255,255,255,0.02);padding:18px;border-radius:12px;min-height:140px;display:flex;flex-direction:column;justify-content:space-between;}
+    .testimonial p {color:var(--muted);margin:10px 0;}
+
+    /* FAQs */
+    #faqs .faq-item {background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;margin-bottom:10px;}
+    .faq-question {cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700;}
+    .faq-answer {max-height:0;overflow:hidden;transition:max-height 0.3s ease;padding-top:0;color:var(--muted);}
+
+    @media(max-width:1024px){.hero{grid-template-columns:300px 1fr;}.projects{grid-template-columns:repeat(2,1fr);}.two-col{grid-template-columns:1fr;}.step-grid{grid-template-columns:repeat(2,1fr);} .test-grid{grid-template-columns:repeat(2,1fr);} #stats .stat-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:720px){.hero{grid-template-columns:1fr;}.projects{grid-template-columns:1fr;}.step-grid{grid-template-columns:1fr;} .test-grid{grid-template-columns:1fr;} #stats .stat-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">DG</div>
+        <div>
+          <div style="font-weight:800">Dhanush</div>
+          <div style="font-size:13px;color:var(--muted)">AI Student · Developer</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#education">Education</a>
+        <a href="#steps">How it Works</a>
+        <a href="#stats">Stats</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#faqs">FAQs</a>
+        <a href="#contact">Contact</a>
+        <button id="themeToggle" title="Toggle theme">🌓</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <!-- Profile Image Left -->
+        <aside class="profile-card">
+          <div class="profile-image-container">
+            <img src="Dhanush.jpg" alt="Dhanush Gundu" class="profile-image">
+          </div>
+          <span class="featured-badge">⭐ FEATURED</span>
+          <h2 class="profile-name">Dhanush Gundu</h2>
+          <p class="profile-role">(AI & Fullstack Developer)</p>
+          <p class="profile-desc">
+            Passionate about building AI-driven, scalable, and user-friendly applications.
+            Skilled in Python, Java, and Fullstack Development. Always eager to collaborate and learn.
+          </p>
+          <button class="collab-btn" onclick="alert('Thanks for your interest! Let’s collaborate 🚀')">
+            Collaborate with me →
+          </button>
+        </aside>
+
+        <!-- Intro Text Right -->
+        <div class="card intro">
+          <h1>Hi, I'm <span style="color:var(--accent)">Dhanush Gundu</span><br>
+          <small style="font-weight:600;color:var(--muted)">Software Developer | AI Engineer | Fullstack Developer</small></h1>
+          <p>
+            I love building amazing digital experiences. Skilled in Python, Java, AI & Fullstack development.<br><br>
+            I'm a passionate tech enthusiast who believes in creating real-world impact through clean, scalable, and user-friendly software.
+            I constantly strive to learn new things and contribute to innovative projects.
+          </p>
+
+          <!-- EXISTING role-text kept exactly as-is (not removed) -->
+          <div class="role-text">
+            <span>Software Developer</span>
+            <span>AI & ML Engineer</span>
+            <span>Fullstack Developer</span>
+            <span>Python & Automation Enthusiast</span>
+          </div>
+
+          <!-- NEW typed role (does not remove existing animations) -->
+          <div class="typed-role" id="typedRole"></div>
+
+          <div class="actions">
+  <a class="cta" id="hireBtn" href="hire.html">Hire Me</a>
+  <a class="btn-outline" id="talkBtn" href="#contact">Let's Talk</a>
+  <a class="btn-outline" id="resumeBtn" href="DHANUSH_GUNDU_DHANUSH.pdf" target="_blank">Resume</a>
+</div>
+
+        </div>
+      </section>
+
+      <!-- REPLACED: Internship Experience + Key Projects (from resume) -->
+      <!-- ================= INTERNSHIP EXPERIENCE SECTION ================= -->
+      <section class="section" id="experience">
+        <h2>Internship Experience</h2>
+        <div class="projects">
+
+          <article class="project card">
+            <h3>Research Intern — IIITDM Kancheepuram (2025)</h3>
+            <p>
+              Worked on ransomware detection using Machine Learning techniques.
+            </p>
+            <ul style="margin-top:10px;color:var(--muted)">
+              <li>Built models using SVM, Random Forest, and K-Means</li>
+              <li>Performed behavioral analysis for anomaly detection</li>
+              <li>Handled data preprocessing and feature engineering</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Machine Learning</span>
+              <span class="tag">Cybersecurity</span>
+            </div>
+          </article>
+
+          <article class="project card">
+            <h3>Java Programming Intern — CodTech IT Solutions (2025)</h3>
+            <p>
+              Focused on Java application development and core programming concepts.
+            </p>
+            <ul style="margin-top:10px;color:var(--muted)">
+              <li>Worked extensively on OOPS principles</li>
+              <li>Implemented file handling and exception handling</li>
+              <li>Built basic database-connected Java applications</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Java</span>
+              <span class="tag">OOPS</span>
+              <span class="tag">MySQL</span>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ================= PROJECTS FROM RESUME ================= -->
+      <section class="section" id="projects">
+        <h2>Key Projects</h2>
+        <div class="projects">
+
+          <article class="project card">
+            <h3>Smart Park System</h3>
+            <p>
+              AI-powered smart parking solution for real-time vehicle detection.
+            </p>
+            <ul style="margin-top:10px;color:var(--muted)">
+              <li>YOLOv8 used for vehicle detection</li>
+              <li>React.js frontend for live slot availability</li>
+              <li>Python backend for inference and processing</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">YOLOv8</span>
+              <span class="tag">React.js</span>
+              <span class="tag">Python</span>
+            </div>
+          </article>
+
+          <article class="project card">
+            <h3>Resume Builder Platform</h3>
+            <p>
+              Full-stack web application for creating professional resumes.
+            </p>
+            <ul style="margin-top:10px;color:var(--muted)">
+              <li>User authentication and profile management</li>
+              <li>REST APIs built using Spring Boot</li>
+              <li>Data stored and managed with MySQL</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Spring Boot</span>
+              <span class="tag">MySQL</span>
+              <span class="tag">REST API</span>
+            </div>
+          </article>
+
+          <article class="project card">
+            <h3>Expense Tracker Application</h3>
+            <p>
+              Web-based application to track daily expenses securely.
+            </p>
+            <ul style="margin-top:10px;color:var(--muted)">
+              <li>User login and authentication</li>
+              <li>CRUD operations for expense management</li>
+              <li>Clean and responsive UI</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Flask</span>
+              <span class="tag">Python</span>
+              <span class="tag">HTML/CSS</span>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Skills Section (UNCHANGED content) -->
+      <section class="section" id="skills">
+        <h2>Skills & Top Links</h2>
+        <div class="two-col">
+          <div class="card">
+            <div class="skill"><div style="display:flex;justify-content:space-between"><span>Python & AI</span><span>90%</span></div><div class="progress"><i data-width="90%"></i></div></div>
+            <div class="skill"><div style="display:flex;justify-content:space-between"><span>Machine Learning</span><span>85%</span></div><div class="progress"><i data-width="85%"></i></div></div>
+            <div class="skill"><div style="display:flex;justify-content:space-between"><span>Fullstack Dev</span><span>80%</span></div><div class="progress"><i data-width="80%"></i></div></div>
+            <div class="skill"><div style="display:flex;justify-content:space-between"><span>HTML, CSS, JS</span><span>90%</span></div><div class="progress"><i data-width="90%"></i></div></div>
+          </div>
+
+          <div class="card" id="top-links">
+            <h3>Top Links</h3>
+            <div class="links-container">
+              <a href="https://github.com/dhanush-devsecops" target="_blank">GitHub</a>
+              <a href="https://www.linkedin.com/in/dhanush-gundu" target="_blank">LinkedIn</a>
+              <a href="mailto:gundudhanush199@gmail.com" target="_blank">Email Me</a>
+              <a href="#contact">Contact Form</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education Section (UNCHANGED content) -->
+      <section class="section" id="education">
+        <h2>🎓 Education</h2>
+        <div class="two-col">
+          <!-- B.Tech -->
+          <div class="card">
+            <h3>B.Tech - CSE (AI/ML)</h3>
+            <p>Anurag Engineering College, Kodad</p>
+            <p>2023 - Present</p>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3801.123456!2d79.123456!3d17.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a1234567890abcdef%3A0x123456abcdef!2sAnurag+Engineering+College!5e0!3m2!1sen!2sin!4v1697300000000!5m2!1sen!2sin"
+              width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+
+          <!-- Intermediate & High School -->
+          <div class="card">
+            <!-- Kavitha Junior College -->
+            <h3>Intermediate</h3>
+            <p>Kavitha Junior College, Chilkur</p>
+            <p>2021 - 2023</p>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3801.123456!2d79.123456!3d17.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a1234567890abcdef%3A0x123456abcdef!2sKavitha+Junior+College,+Chilkur!5e0!3m2!1sen!2sin!4v1697300000000!5m2!1sen!2sin"
+              width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+            <!-- Chaitanya High School -->
+            <h3>10th Class</h3>
+            <p>Chaitanya High School, Huzurnagar</p>
+            <p>2019 - 2021</p>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3801.123456!2d79.123456!3d17.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a1234567890abcdef%3A0x123456abcdef!2sChaitanya+High+School,+Huzurnagar!5e0!3m2!1sen!2sin!4v1697300000000!5m2!1sen!2sin"
+              width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEW: Steps / How it Works (added before contact as requested) -->
+      <section class="section" id="steps">
+        <h2>How I Work — Simple Steps</h2>
+        <div class="step-grid">
+          <div class="step card">
+            <h4>1. Understand</h4>
+            <p>I discuss goals, scope and constraints to baseline the project needs.</p>
+          </div>
+          <div class="step card">
+            <h4>2. Plan & Prototype</h4>
+            <p>Wireframes, MVP plan and quick prototypes to validate ideas.</p>
+          </div>
+          <div class="step card">
+            <h4>3. Build & Iterate</h4>
+            <p>Develop clean code, integrate AI models, test and refine quickly.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEW: Stats / Achievements -->
+      <section class="section" id="stats">
+        <h2>Stats & Achievements</h2>
+        <div class="stat-grid">
+          <div class="stat card">
+            <h3 data-count="10">0</h3>
+            <p>Completed Projects</p>
+          </div>
+          <div class="stat card">
+            <h3 data-count="8">0</h3>
+            <p>Open-source Contributions</p>
+          </div>
+          <div class="stat card">
+            <h3 data-count="2">0</h3>
+            <p>Hackathons</p>
+          </div>
+          <div class="stat card">
+            <h3 data-count="85">0</h3>
+            <p>Model Accuracy (%)</p>
+          </div>
+        </div>
+      </section>
+
+     
+
+      <!-- NEW: FAQs -->
+      <section class="section" id="faqs">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-item card">
+          <div class="faq-question">What tech stack do you use? <span>+</span></div>
+          <div class="faq-answer">
+            <p>I mainly use Python (Pandas, scikit-learn, PyTorch), Flask, Streamlit, and front-end tech (HTML/CSS/JS). For databases I use MySQL and SQLite.</p>
+          </div>
+        </div>
+
+        <div class="faq-item card">
+          <div class="faq-question">Do you take freelance projects? <span>+</span></div>
+          <div class="faq-answer">
+            <p>Yes — I take select freelance projects, prefer 2–6 week MVP-style engagements. Email me with details and timeline.</p>
+          </div>
+        </div>
+
+        <div class="faq-item card">
+          <div class="faq-question">How do you collaborate on projects? <span>+</span></div>
+          <div class="faq-answer">
+            <p>We generally use GitHub for code, Google Meet / Discord for calls, and Trello or Notion for tracking tasks.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section (UNCHANGED content, kept exactly as you provided) -->
+      <section class="section" id="contact">
+        <h2>Contact Me</h2>
+        <div class="two-col">
+          <div class="info-box">
+            <h3>Email</h3>
+            <p>gundudhanush199@gmail.com</p>
+          </div>
+          <div class="info-box">
+            <h3>Phone</h3>
+            <p>+91 94917 02710</p>
+          </div>
+        </div>
+        <form action="mailto:gundudhanush199@gmail.com" method="post" enctype="text/plain">
+          <div class="form-group">
+            <input type="text" name="name" required placeholder=" ">
+            <label>Your Name</label>
+          </div>
+          <div class="form-group">
+            <input type="email" name="email" required placeholder=" ">
+            <label>Your Email</label>
+          </div>
+          <div class="form-group">
+            <textarea name="message" rows="5" required placeholder=" "></textarea>
+            <label>Your Message</label>
+          </div>
+          <button class="cta" type="submit">Send Message</button>
+        </form>
+      </section>
+
+      <footer>
+        &copy; 2025 Dhanush Gundu. All rights reserved.
+      </footer>
+    </main>
+  </div>
+
+  <!-- Floating chatbot and toggle button (new) -->
+  <div id="chatbot" style="position:fixed;bottom:20px;right:20px;background:#0b1020;border-radius:16px;padding:16px;width:320px;box-shadow:0 10px 30px rgba(12,8,40,0.7);display:none;z-index:2000;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div style="font-weight:700;color:#fff">🤖 Deanora Bot</div>
+      <button id="chatClose" style="background:none;border:none;color:var(--muted);cursor:pointer;font-weight:700">✕</button>
+    </div>
+    <div id="chatResponse" style="margin:10px 0;color:#cbd5e1;font-size:14px;min-height:50px;">Hi! I'm Deanora Bot. Ask about Dhanush's skills, projects or contact.</div>
+    <input id="chatInput" placeholder="Type here and press Enter..." style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:#fff;">
+  </div>
+
+  <button id="chatToggle" title="Chat with Deanora" style="position:fixed;bottom:20px;right:20px;background:linear-gradient(90deg,#7c3aed,#06b6d4);color:white;border:none;padding:14px 18px;border-radius:50%;cursor:pointer;box-shadow:0 0 15px rgba(124,58,237,0.5);font-size:20px;z-index:1500;">💬</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script>
+    // --- Preserve existing skill bar animation (UNCHANGED behaviour) ---
+    document.querySelectorAll('.progress i').forEach(bar=>{
+      let width = bar.getAttribute('data-width');
+      setTimeout(()=>{bar.style.width = width;}, 500);
+    });
+
+    // --- Typed.js for a small typed role (does not remove your existing role-text) ---
+    try {
+      new Typed('#typedRole', {
+        strings: ["Software Developer", "AI Engineer", "Fullstack Dev", "Python & Automation Enthusiast"],
+        typeSpeed: 60,
+        backSpeed: 30,
+        loop: true,
+        backDelay: 1400,
+        smartBackspace: true
+      });
+    } catch(e){ /* ignore if Typed fails */ }
+
+    // --- ScrollReveal animations for sections ---
+    try {
+      ScrollReveal().reveal('.hero .card, .profile-card', { distance: '30px', duration: 700, origin: 'bottom', interval: 80 });
+      ScrollReveal().reveal('.section h2', { distance: '20px', duration: 600, origin: 'top' });
+      ScrollReveal().reveal('.card, .project, .step, .stat, .testimonial, .faq-item', { distance: '20px', duration: 700, origin: 'bottom', interval: 60 });
+    } catch(e){ /* ignore */ }
+
+    // --- Counters for stats ---
+    (function runCounters(){
+      const counters = document.querySelectorAll("[data-count]");
+      counters.forEach(counter=>{
+        let target = +counter.getAttribute("data-count");
+        let count = 0;
+        const step = Math.max(1, Math.round(target / 60));
+        const update = () => {
+          if(count < target){
+            count += step;
+            if(count > target) count = target;
+            counter.textContent = count;
+            requestAnimationFrame(()=>setTimeout(update, 30));
+          } else {
+            counter.textContent = target;
+          }
+        };
+        // Animate when element is in view
+        const io = new IntersectionObserver((entries, obs) => {
+          entries.forEach(ent => {
+            if(ent.isIntersecting){ update(); obs.disconnect(); }
+          });
+        });
+        io.observe(counter);
+      });
+    })();
+
+    // --- FAQ accordion behavior ---
+    document.querySelectorAll('#faqs .faq-item').forEach(item=>{
+      const q = item.querySelector('.faq-question');
+      const a = item.querySelector('.faq-answer');
+      q.addEventListener('click', ()=>{
+        const isOpen = a.style.maxHeight && a.style.maxHeight !== '0px';
+        document.querySelectorAll('#faqs .faq-answer').forEach(x => x.style.maxHeight = null);
+        if(!isOpen){
+          a.style.maxHeight = a.scrollHeight + 'px';
+        } else {
+          a.style.maxHeight = null;
+        }
+      });
+    });
+
+    // --- Chatbot simple logic ---
+    const chatToggle = document.getElementById("chatToggle");
+    const chatbot = document.getElementById("chatbot");
+    const chatInput = document.getElementById("chatInput");
+    const chatResponse = document.getElementById("chatResponse");
+    const chatClose = document.getElementById("chatClose");
+
+    chatToggle.onclick = () => {
+      chatbot.style.display = chatbot.style.display === "block" ? "none" : "block";
+      // Keep toggle button visible behind chatbot; move toggle slightly if chatbot opens
+      if(chatbot.style.display === "block") chatToggle.style.transform = "translateX(-360px)";
+      else chatToggle.style.transform = "translateX(0)";
+    };
+    chatClose.onclick = () => {
+      chatbot.style.display = "none";
+      chatToggle.style.transform = "translateX(0)";
+    };
+
+    chatInput.addEventListener("keypress", e => {
+      if(e.key === "Enter"){
+        let q = chatInput.value.trim().toLowerCase();
+        if(!q){ chatResponse.innerText = "Type a question about skills, projects or contact."; return; }
+        // simple canned responses
+        if(q.includes("name")) chatResponse.innerText = "I'm Deanora Bot — created to assist with info about Dhanush.";
+        else if(q.includes("skills") || q.includes("tech")) chatResponse.innerText = "Dhanush: Python, ML, Fullstack, Streamlit, Java, HTML/CSS/JS.";
+        else if(q.includes("projects")) chatResponse.innerText = "See the Projects section — including an EAMCET rank predictor and AI appointment bot.";
+        else if(q.includes("contact") || q.includes("email")) chatResponse.innerText = "Email: 23c11a6622@anurag.ac.in";
+        else if(q.includes("hire") || q.includes("work")) chatResponse.innerText = "Interested? Click Hire Me or send a message via the Contact form.";
+        else chatResponse.innerText = "Nice question! I'm learning more. Try: skills, projects, contact, hire.";
+        chatInput.value = "";
+      }
+    });
+
+    // --- Theme toggle (dark/light) ---
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      if(document.body.classList.contains('light')){
+        document.body.classList.remove('light');
+        // reset CSS variables to original
+        document.documentElement.style.setProperty('--bg1', 'linear-gradient(135deg,#0f172a 0%, #071421 60%)');
+        document.documentElement.style.setProperty('--muted', 'rgba(255,255,255,0.7)');
+      } else {
+        document.body.classList.add('light');
+        // light theme variables
+        document.documentElement.style.setProperty('--bg1', '#f5f7fb');
+        document.documentElement.style.setProperty('--muted', '#4b5563');
+      }
+    });
+
+    // --- Smooth nav active link highlight (on scroll) ---
+    const navLinks = document.querySelectorAll('header nav a[href^="#"]');
+    const sections = Array.from(navLinks).map(a => document.querySelector(a.getAttribute('href')));
+    window.addEventListener('scroll', () => {
+      let pos = window.scrollY + 120;
+      sections.forEach((sec, idx) => {
+        if(!sec) return;
+        if(pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight){
+          navLinks.forEach(n => n.style.background = 'transparent');
+          navLinks[idx].style.background = 'rgba(255,255,255,0.03)';
+        }
+      });
+    });
+
+    // Ensure anchor links smooth scroll behavior (works because of CSS scroll-behavior)
+    // Also collapse mobile UI adjustments could be added later
+
+    // --- optional: scroll reveal for hero elements (already above) ---
+
+  </script>
+
+  <!-- keep your original skill bar animation script (already executed above) -->
+</body>
+</html>
