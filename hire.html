@@ -3,88 +3,471 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hire Me - Dhanush Gundu</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <title>Hire Me - Dhanush Gundu | 3D Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Inter', sans-serif;
-      background: #0f2027; 
-      background: linear-gradient(135deg, #2c5364, #203a43, #0f2027);
-      color: #fff;
+      overflow-x: hidden;
+      background: #07101f;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Animated Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: radial-gradient(circle at 15% 80%, rgba(30, 120, 220, 0.24) 0%, transparent 35%),
+                  radial-gradient(circle at 80% 20%, rgba(24, 178, 238, 0.18) 0%, transparent 40%),
+                  radial-gradient(circle at 40% 40%, rgba(65, 130, 240, 0.16) 0%, transparent 45%);
+      animation: bgShift 24s ease-in-out infinite;
+    }
+
+    @keyframes bgShift {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.05) rotate(15deg); }
+    }
+
+    /* Floating Particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      background: linear-gradient(45deg, rgba(65, 180, 255, 0.75), rgba(120, 220, 255, 0.55));
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+      opacity: 0.55;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); opacity: 0.5; }
+      50% { transform: translateY(-12px); opacity: 0.9; }
+    }
+
+    /* Main Container */
+    .container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    /* Navigation */
+    .hire-nav {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      background: rgba(14, 37, 68, 0.88);
+      border: 1px solid rgba(82, 155, 255, 0.22);
+      border-radius: 25px;
+      color: #d8e9ff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .nav-back:hover {
+      background: rgba(12, 44, 85, 0.98);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+    }
+
+    .nav-back i {
+      font-size: 0.85rem;
+    }
+
+    /* 3D Card */
+    .hire-card {
+      background: rgba(8, 22, 38, 0.94);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(72, 137, 255, 0.18);
+      border-radius: 30px;
+      padding: 60px 50px;
+      max-width: 900px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease;
+      box-shadow: 0 30px 70px rgba(0, 18, 40, 0.46);
+    }
+
+    .hire-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(120deg, rgba(0, 122, 230, 0.18), rgba(33, 163, 255, 0.12), rgba(0, 84, 172, 0.16));
+      border-radius: 30px;
+      z-index: -1;
+      animation: borderRotate 8s linear infinite;
+    }
+
+    @keyframes borderRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .hire-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 38px 80px rgba(0, 28, 60, 0.35);
+    }
+
+    /* Title */
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #7ae8ff, #5d9cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+      animation: titleGlow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes titleGlow {
+      from { filter: drop-shadow(0 0 18px rgba(122, 232, 255, 0.45)); }
+      to { filter: drop-shadow(0 0 26px rgba(93, 156, 255, 0.45)); }
+    }
+
+    /* Subtitle */
+    .hero-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .hero-subtitle strong {
+      background: linear-gradient(135deg, #7ae8ff, #5d9cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+    }
+
+    /* Floating Icons */
+    .skills-float {
       display: flex;
       justify-content: center;
+      gap: 30px;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+
+    .skill-item {
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      min-height: 100vh;
-    }
-    .hire-section {
-      text-align: center;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 50px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      max-width: 800px;
-      width: 90%;
-      backdrop-filter: blur(10px);
-    }
-    .hire-section h2 {
-      font-size: 3em;
-      margin-bottom: 20px;
-      color: #ff4c60;
-    }
-    .hire-section p {
-      font-size: 1.2em;
-      line-height: 1.8;
-      margin: 0 auto 30px auto;
-      max-width: 600px;
-    }
-    #hireBtn {
-      padding: 15px 35px;
-      font-size: 1.2em;
-      color: #fff;
-      background: #ff4c60;
-      border: none;
-      border-radius: 10px;
+      transform: translateY(0);
+      animation: floatSoft 4.5s ease-in-out infinite;
       cursor: pointer;
       transition: all 0.3s ease;
     }
-    #hireBtn:hover {
-      background: #ff6b80;
-      transform: scale(1.05);
+
+    .skill-item:nth-child(1) { animation-delay: 0s; }
+    .skill-item:nth-child(2) { animation-delay: 0.3s; }
+    .skill-item:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes floatSoft {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
-    #thankMsg {
-      margin-top: 25px;
-      font-size: 1.5em;
-      color: #00ffb0;
+
+    .skill-item:hover {
+      transform: translateY(-10px) scale(1.04);
+    }
+
+    .skill-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #1c7ed6, #36c0ff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      box-shadow: 0 10px 28px rgba(25, 118, 210, 0.28);
+      margin-bottom: 10px;
+    }
+
+    .skill-label {
+      font-weight: 600;
+      color: rgba(226, 239, 255, 0.95);
+      font-size: 0.9rem;
+    }
+
+    /* Hire Button */
+    .hire-btn {
+      padding: 18px 48px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, #1d70c8, #0f4d82);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      box-shadow: 0 15px 35px rgba(12, 58, 100, 0.35);
+    }
+
+    .hire-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
+      transition: left 0.4s ease;
+    }
+
+    .hire-btn:hover::before {
+      left: 100%;
+    }
+
+    .hire-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 45px rgba(12, 58, 100, 0.45);
+    }
+
+    .hire-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* Thank You Message */
+    .thank-message {
+      margin-top: 30px;
+      font-size: 1.3rem;
+      color: #7be7ff;
+      font-weight: 600;
       display: none;
-      animation: fadeIn 1s ease forwards;
+      animation: celebrate 0.9s ease;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px);}
-      to { opacity: 1; transform: translateY(0);}
+
+    .thank-message.pulse {
+      animation: celebrate 0.9s ease forwards;
+    }
+
+    @keyframes celebrate {
+      0% { transform: scale(0.85); opacity: 0; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hire-card {
+        padding: 40px 30px;
+        margin: 20px;
+      }
+      
+      .skills-float {
+        gap: 20px;
+      }
+      
+      .skill-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(175, 210, 255, 0.78);
+      font-size: 0.9rem;
+      animation: pulse 2.5s infinite;
+      z-index: 100;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <div class="hire-section">
-    <h2>Why Hire Me?</h2>
-    <p>
-      Hi, I'm <strong>Dhanush Gundu</strong>, a passionate developer creating futuristic, responsive, and innovative web applications. 
-      I deliver <strong>clean code, interactive designs, and scalable solutions</strong> that turn ideas into reality.  
-      Hire me if you want someone <strong>creative, reliable, and results-oriented</strong> on your team. 🚀
-    </p>
-    <button id="hireBtn">Hire Me</button>
-    <p id="thankMsg">🙏 Thanks for hiring me! Let's create something amazing together.</p>
+  <!-- Animated Background -->
+  <div class="bg-animation"></div>
+  
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="container">
+    <!-- Navigation Header -->
+    <nav class="hire-nav">
+      <a href="index.html" class="nav-back">
+        <i class="fas fa-arrow-left"></i> Back to Portfolio
+      </a>
+    </nav>
+    
+    <div class="hire-card" id="hireCard">
+      <h1 class="hero-title" data-text="Why Hire Me?">Why Hire Me?</h1>
+      
+      <p class="hero-subtitle">
+        Hi, I'm <strong>Dhanush Gundu</strong> – a passionate developer crafting 
+        <strong>futuristic, responsive, and innovative web experiences</strong>. 
+        I deliver <strong>clean code, stunning animations, and scalable solutions</strong> 
+        that bring your vision to life. 🚀 Ready to build something extraordinary?
+      </p>
+
+      <!-- Floating Skills -->
+      <div class="skills-float">
+        <div class="skill-item">
+          <div class="skill-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <span class="skill-label">Clean Code</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon">
+            <i class="fas fa-paint-brush"></i>
+          </div>
+          <span class="skill-label">Creative UI</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <span class="skill-label">Fast Delivery</span>
+        </div>
+      </div>
+
+      <button class="hire-btn" id="hireBtn">
+        <i class="fas fa-user-plus"></i> Hire Me Now!
+      </button>
+      
+      <p class="thank-message" id="thankMsg">
+        <i class="fas fa-heart"></i> Thank you! Let's create something amazing together!
+      </p>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="scroll-indicator">
+    <i class="fas fa-mouse-pointer"></i> Hover & Scroll for Magic ✨
   </div>
 
   <script>
+    // Particle System
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Mouse Follow Effect
+    document.addEventListener('mousemove', (e) => {
+      const card = document.getElementById('hireCard');
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = (y - centerY) / 20;
+      const rotateY = (centerX - x) / 20;
+      
+      card.style.transform = `
+        perspective(1000px) 
+        rotateX(${rotateX}deg) 
+        rotateY(${rotateY}deg)
+        translateY(-20px)
+      `;
+    });
+
+    // Hire Button Interaction
     const hireBtn = document.getElementById('hireBtn');
     const thankMsg = document.getElementById('thankMsg');
+    const hireCard = document.getElementById('hireCard');
 
     hireBtn.addEventListener('click', () => {
-      thankMsg.style.display = 'block';
-      hireBtn.style.display = 'none'; // hides button after click
+      hireBtn.style.transform = 'scale(0.96)';
+      setTimeout(() => {
+        hireBtn.style.display = 'none';
+        thankMsg.style.display = 'block';
+        hireCard.style.background = 'linear-gradient(135deg, rgba(4, 50, 92, 0.95), rgba(12, 75, 140, 0.95))';
+        thankMsg.classList.add('pulse');
+      }, 150);
+    });
+
+    // Initialize
+    createParticles();
+    
+    // Typing Effect for Title
+    const title = document.querySelector('.hero-title');
+    const originalText = title.textContent;
+    title.textContent = '';
+    
+    let i = 0;
+    function typeWriter() {
+      if (i < originalText.length) {
+        title.textContent += originalText.charAt(i);
+        i++;
+        setTimeout(typeWriter, 100);
+      }
+    }
+    setTimeout(typeWriter, 500);
+
+    // Parallax Scroll Effect
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const particles = document.querySelectorAll('.particle');
+      particles.forEach((particle, index) => {
+        const speed = (index / particles.length) * 0.5;
+        particle.style.transform = `translateY(${scrolled * speed}px)`;
+      });
     });
   </script>
 </body>
