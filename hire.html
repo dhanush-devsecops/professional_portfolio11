@@ -232,9 +232,34 @@
       font-size: 0.9rem;
     }
 
+    /* Input Fields */
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(82, 155, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .input-field:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #7ae8ff;
+      box-shadow: 0 0 15px rgba(122, 232, 255, 0.2);
+    }
+
     /* Hire Button */
     .hire-btn {
       padding: 18px 48px;
+      width: 100%;
       font-size: 1.15rem;
       font-weight: 700;
       color: white;
@@ -329,14 +354,11 @@
   </style>
 </head>
 <body>
-  <!-- Animated Background -->
   <div class="bg-animation"></div>
   
-  <!-- Floating Particles -->
   <div class="particles" id="particles"></div>
 
   <div class="container">
-    <!-- Navigation Header -->
     <nav class="hire-nav">
       <a href="index.html" class="nav-back">
         <i class="fas fa-arrow-left"></i> Back to Portfolio
@@ -349,43 +371,44 @@
       <p class="hero-subtitle">
         Hi, I'm <strong>Dhanush Gundu</strong> – a passionate developer crafting 
         <strong>futuristic, responsive, and innovative web experiences</strong>. 
-        I deliver <strong>clean code, stunning animations, and scalable solutions</strong> 
-        that bring your vision to life. 🚀 Ready to build something extraordinary?
+        Ready to build something extraordinary?
       </p>
 
-      <!-- Floating Skills -->
       <div class="skills-float">
         <div class="skill-item">
-          <div class="skill-icon">
-            <i class="fas fa-code"></i>
-          </div>
+          <div class="skill-icon"><i class="fas fa-code"></i></div>
           <span class="skill-label">Clean Code</span>
         </div>
         <div class="skill-item">
-          <div class="skill-icon">
-            <i class="fas fa-paint-brush"></i>
-          </div>
+          <div class="skill-icon"><i class="fas fa-paint-brush"></i></div>
           <span class="skill-label">Creative UI</span>
         </div>
         <div class="skill-item">
-          <div class="skill-icon">
-            <i class="fas fa-rocket"></i>
-          </div>
+          <div class="skill-icon"><i class="fas fa-rocket"></i></div>
           <span class="skill-label">Fast Delivery</span>
         </div>
       </div>
 
-      <button class="hire-btn" id="hireBtn">
-        <i class="fas fa-user-plus"></i> Hire Me Now!
-      </button>
-      
+      <form id="hireForm" action="https://formspree.io/f/xbdwwpgr" method="POST">
+        <div class="input-group">
+          <input type="text" name="name" class="input-field" placeholder="Full Name" required>
+        </div>
+        <div class="input-group">
+          <input type="email" name="email" class="input-field" placeholder="Email Address" required>
+        </div>
+        <div class="input-group">
+          <textarea name="message" class="input-field" placeholder="Project Details" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="hire-btn" id="hireBtn">
+          <i class="fas fa-user-plus"></i> Send Message
+        </button>
+      </form>
       <p class="thank-message" id="thankMsg">
         <i class="fas fa-heart"></i> Thank you! Let's create something amazing together!
       </p>
     </div>
   </div>
 
-  <!-- Scroll Indicator -->
   <div class="scroll-indicator">
     <i class="fas fa-mouse-pointer"></i> Hover & Scroll for Magic ✨
   </div>
@@ -427,29 +450,41 @@
       `;
     });
 
-    // Hire Button Interaction
+    // BACKEND INTEGRATION SCRIPT
+    const hireForm = document.getElementById('hireForm');
     const hireBtn = document.getElementById('hireBtn');
     const thankMsg = document.getElementById('thankMsg');
     const hireCard = document.getElementById('hireCard');
 
-    hireBtn.addEventListener('click', () => {
-      hireBtn.style.transform = 'scale(0.96)';
-      setTimeout(() => {
-        hireBtn.style.display = 'none';
+    hireForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hireBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+      
+      const data = new FormData(hireForm);
+      const response = await fetch(hireForm.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        hireForm.style.display = 'none';
         thankMsg.style.display = 'block';
         hireCard.style.background = 'linear-gradient(135deg, rgba(4, 50, 92, 0.95), rgba(12, 75, 140, 0.95))';
         thankMsg.classList.add('pulse');
-      }, 150);
+      } else {
+        alert("Error sending message. Please try again.");
+        hireBtn.innerHTML = '<i class="fas fa-user-plus"></i> Send Message';
+      }
     });
 
     // Initialize
     createParticles();
     
-    // Typing Effect for Title
+    // Typing Effect
     const title = document.querySelector('.hero-title');
     const originalText = title.textContent;
     title.textContent = '';
-    
     let i = 0;
     function typeWriter() {
       if (i < originalText.length) {
@@ -460,7 +495,6 @@
     }
     setTimeout(typeWriter, 500);
 
-    // Parallax Scroll Effect
     window.addEventListener('scroll', () => {
       const scrolled = window.pageYOffset;
       const particles = document.querySelectorAll('.particle');
